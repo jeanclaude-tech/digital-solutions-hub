@@ -6,2364 +6,1798 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#075e54">
 
-<title>Gestion Pharmacie Ramba</title>
+<title>Pharmacie Ramba | Votre santé, notre priorité</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="description" content="Pharmacie Ramba à Bujumbura, Burundi. Retrouvez nos pharmacies, nos services et nos contacts.">
+
+<meta name="keywords" content="Pharmacie Ramba, pharmacie Bujumbura, médicaments Burundi, santé">
+
+<link rel="icon" href="images/logo.png" type="image/png">
+
+
 
 <style>
+/* =================================
+   PHARMACIE RAMBA - STYLE GLOBAL
+================================= */
+
 :root {
-  --primary:#075e54;
-  --secondary:#0d9488;
-  --background:#f1f5f9;
-  --white:#ffffff;
-  --text:#17202a;
-  --muted:#64748b;
-  --danger:#dc2626;
-  --warning:#d97706;
-  --success:#15803d;
-  --border:#e2e8f0;
-  --shadow:0 4px 15px rgba(0,0,0,.07);
+  --primary: #075e54;
+  --secondary: #0d9488;
+  --dark: #12332f;
+  --light: #f1f8f6;
+  --white: #ffffff;
+  --text: #475569;
+  --border: #e2e8f0;
+  --shadow: 0 12px 35px rgba(0,0,0,.08);
 }
 
 * {
-  box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
 }
 
 body {
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--background);
-  color:var(--text);
-  font-size:14px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--white);
+  color: var(--text);
+  line-height: 1.7;
 }
 
-button,input,select,textarea {
-  font:inherit;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-button {
-  cursor:pointer;
+button, input, textarea {
+  font: inherit;
 }
 
-.hidden {
-  display:none !important;
+.container {
+  width: 90%;
+  max-width: 1180px;
+  margin: auto;
 }
 
-header {
-  background:var(--primary);
-  color:white;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  box-shadow:var(--shadow);
+.section {
+  padding: 85px 0;
 }
 
-.brand {
-  font-size:18px;
-  font-weight:bold;
+/* TOPBAR */
+
+.topbar {
+  background: var(--primary);
+  color: white;
+  font-size: 13px;
+  padding: 9px 0;
 }
 
-.subtitle {
-  font-size:12px;
-  opacity:.85;
-  margin-top:4px;
+.topbar-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-.connection {
-  font-size:12px;
-  background:rgba(255,255,255,.15);
-  padding:7px 10px;
-  border-radius:20px;
+/* HEADER */
+
+.header {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 3px 15px rgba(0,0,0,.07);
 }
 
-#loginScreen {
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  background:linear-gradient(135deg,#075e54,#0d9488);
+.header-content {
+  min-height: 82px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
 }
 
-.login-card {
-  background:white;
-  width:100%;
-  max-width:400px;
-  padding:25px;
-  border-radius:14px;
-  box-shadow:var(--shadow);
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
 }
 
-.login-logo {
-  text-align:center;
-  color:var(--primary);
-  font-size:22px;
-  font-weight:bold;
-  margin-bottom:8px;
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  font-weight: bold;
 }
 
-.login-description {
-  text-align:center;
-  color:var(--muted);
-  margin-bottom:25px;
+.logo-text strong {
+  display: block;
+  font-size: 17px;
+  letter-spacing: .5px;
 }
 
-h2 {
-  font-size:20px;
-  margin:0 0 15px;
+.logo-text small {
+  color: #64748b;
+  font-size: 11px;
 }
 
-h3 {
-  font-size:16px;
-  margin:0 0 12px;
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 23px;
 }
 
-label {
-  display:block;
-  font-weight:bold;
-  margin:12px 0 6px;
+.navigation a {
+  font-size: 13px;
+  font-weight: bold;
+  color: #334155;
+  transition: .3s;
 }
 
-input,select,textarea {
-  width:100%;
-  padding:11px;
-  border:1px solid var(--border);
-  border-radius:7px;
-  background:white;
-  outline:none;
-  min-width:0;
+.navigation a:hover {
+  color: var(--secondary);
 }
 
-input:focus,select:focus,textarea:focus {
-  border-color:var(--secondary);
-  box-shadow:0 0 0 2px rgba(13,148,136,.12);
+.navigation .nav-button {
+  background: var(--primary);
+  color: white;
+  padding: 11px 20px;
+  border-radius: 7px;
 }
 
-textarea {
-  min-height:75px;
-  resize:vertical;
+.navigation .nav-button:hover {
+  background: var(--secondary);
+  color: white;
+}
+
+.menu-toggle {
+  display: none;
+  border: none;
+  background: var(--primary);
+  color: white;
+  padding: 9px 13px;
+  font-size: 23px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* HERO */
+
+.hero {
+  background:
+    linear-gradient(110deg, rgba(5,65,57,.97), rgba(7,94,84,.88));
+  color: white;
+  padding: 105px 0;
+  overflow: hidden;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.hero-label,
+.section-label {
+  display: inline-block;
+  color: var(--secondary);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.hero-label {
+  color: #a7f3d0;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 6vw, 65px);
+  line-height: 1.12;
+  margin-bottom: 22px;
+}
+
+.hero h1 span {
+  color: #6ee7b7;
+}
+
+.hero-text p {
+  color: #e0f2ef;
+  max-width: 570px;
+  margin-bottom: 30px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
 }
 
 .btn {
-  border:0;
-  border-radius:7px;
-  padding:11px 15px;
-  font-weight:bold;
-  background:var(--primary);
-  color:white;
+  display: inline-block;
+  padding: 13px 23px;
+  border: none;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .3s;
+  text-align: center;
 }
 
-.btn:hover {
-  opacity:.92;
+.btn-primary {
+  background: var(--secondary);
+  color: white;
 }
 
-.btn-block {
-  width:100%;
-  margin-top:18px;
+.btn-primary:hover {
+  background: #047568;
+  transform: translateY(-3px);
 }
 
-.btn-secondary {
-  background:var(--secondary);
+.btn-outline {
+  border: 1px solid white;
+  color: white;
 }
 
-.btn-danger {
-  background:var(--danger);
+.btn-outline:hover {
+  background: white;
+  color: var(--primary);
+}
+
+.hero-image {
+  min-height: 330px;
+  display: grid;
+  place-items: center;
+}
+
+.hero-image-card {
+  width: 100%;
+  max-width: 390px;
+  min-height: 290px;
+  border: 1px solid rgba(255,255,255,.3);
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.2);
+}
+
+.medical-symbol {
+  font-size: 95px;
+  color: #6ee7b7;
+  line-height: 1.3;
+}
+
+.hero-image-card h2 {
+  font-size: 22px;
+  margin: 10px 0;
+}
+
+.hero-image-card span {
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-top: 12px;
+}
+
+/* SECTION TITLES */
+
+.section-heading {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 45px;
+}
+
+.section-heading h2,
+.about-content h2,
+.hours-content h2 {
+  color: var(--dark);
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.section-heading p {
+  color: #64748b;
+}
+
+/* ABOUT */
+
+.about {
+  background: white;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 65px;
+}
+
+.about-image {
+  min-height: 390px;
+  border-radius: 20px;
+  background: linear-gradient(140deg, #075e54, #0d9488);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+.about-symbol {
+  font-size: 140px;
+  line-height: 1.4;
+}
+
+.about-image span {
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+.about-content p {
+  margin-bottom: 15px;
+}
+
+.about-content .btn {
+  margin-top: 12px;
+}
+
+/* BRANCHES */
+
+.branches {
+  background: var(--light);
+}
+
+.branch-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.branch-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: .3s;
+}
+
+.branch-card:hover {
+  transform: translateY(-7px);
+}
+
+.branch-image {
+  height: 210px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+
+.branch-one {
+  background: linear-gradient(135deg, #075e54, #14b8a6);
+}
+
+.branch-two {
+  background: linear-gradient(135deg, #164e63, #0d9488);
+}
+
+.branch-image span {
+  font-size: 75px;
+}
+
+.branch-image small {
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+.branch-content {
+  padding: 27px;
+}
+
+.branch-number {
+  color: var(--secondary);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.branch-content h3 {
+  color: var(--dark);
+  font-size: 21px;
+  margin: 10px 0 15px;
+}
+
+.branch-content p {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.branch-link {
+  display: inline-block;
+  color: var(--primary);
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.branch-link:hover {
+  color: var(--secondary);
+}
+
+/* SERVICES */
+
+.services {
+  background: white;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.service-card {
+  padding: 30px 25px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  transition: .3s;
+}
+
+.service-card:hover {
+  border-color: var(--secondary);
+  box-shadow: var(--shadow);
+  transform: translateY(-5px);
+}
+
+.service-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: #e0f2ef;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  margin-bottom: 18px;
+}
+
+.service-card h3 {
+  color: var(--dark);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  font-size: 14px;
+}
+
+/* HOURS */
+
+.opening-hours {
+  background: var(--light);
+}
+
+.hours-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 50px;
+}
+
+.hours-box {
+  background: white;
+  padding: 30px;
+  border-radius: 13px;
+  box-shadow: var(--shadow);
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.hours-row strong {
+  color: var(--primary);
+}
+
+.hours-box small {
+  display: block;
+  margin-top: 18px;
+  color: #64748b;
+}
+
+/* GALLERY */
+
+.gallery {
+  background: white;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 17px;
+}
+
+.gallery-item {
+  min-height: 210px;
+  padding: 20px;
+  border-radius: 13px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: .3s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+}
+
+.gallery-item span {
+  font-size: 55px;
+}
+
+.gallery-item p {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.gallery-one {
+  background: linear-gradient(135deg,#075e54,#0d9488);
+}
+
+.gallery-two {
+  background: linear-gradient(135deg,#164e63,#0891b2);
+}
+
+.gallery-three {
+  background: linear-gradient(135deg,#155e45,#22a06b);
+}
+
+.gallery-four {
+  background: linear-gradient(135deg,#334155,#64748b);
+}
+
+.gallery-note {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* CONTACT */
+
+.contact {
+  background: var(--light);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+  align-items: start;
+}
+
+.contact-info {
+  display: grid;
+  gap: 17px;
+}
+
+.contact-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: white;
+  padding: 22px;
+  border-radius: 11px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.04);
+}
+
+.contact-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: grid;
+  place-items: center;
+  background: #e0f2ef;
+  border-radius: 10px;
+  font-size: 22px;
+}
+
+.contact-card h3 {
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+
+.contact-card p {
+  font-size: 14px;
+}
+
+.contact-card a {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.contact-form {
+  background: white;
+  padding: 30px;
+  border-radius: 13px;
+  box-shadow: var(--shadow);
+}
+
+.contact-form h3 {
+  color: var(--dark);
+  font-size: 23px;
+}
+
+.contact-form > p {
+  margin: 8px 0 22px;
+  font-size: 14px;
+}
+
+.contact-form label {
+  display: block;
+  margin: 14px 0 6px;
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--dark);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  outline: none;
+  background: #fafafa;
+  color: #334155;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(13,148,136,.1);
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form button {
+  width: 100%;
+  margin-top: 18px;
+}
+
+/* MANAGEMENT */
+
+.management {
+  background: linear-gradient(120deg,#064e46,#0d9488);
+  text-align: center;
+  color: white;
+}
+
+.management-content {
+  max-width: 720px;
+}
+
+.management-icon {
+  font-size: 65px;
+  margin-bottom: 10px;
+}
+
+.management .section-label {
+  color: #a7f3d0;
+}
+
+.management h2 {
+  font-size: clamp(27px,4vw,38px);
+  margin: 10px 0;
+}
+
+.management p {
+  color: #e0f2ef;
+  margin-bottom: 25px;
 }
 
 .btn-light {
-  background:#e2e8f0;
-  color:#17202a;
+  background: white;
+  color: var(--primary);
 }
 
-.message {
-  padding:10px;
-  border-radius:7px;
-  margin-top:12px;
-  font-size:13px;
-  display:none;
+.btn-light:hover {
+  background: #d1fae5;
+  transform: translateY(-3px);
 }
 
-.message.error {
-  display:block;
-  background:#fee2e2;
-  color:#991b1b;
+.management-content small {
+  display: block;
+  margin-top: 18px;
+  color: #d1fae5;
 }
 
-.message.success {
-  display:block;
-  background:#dcfce7;
-  color:#166534;
+/* FOOTER */
+
+.footer {
+  background: #102c29;
+  color: #d1e5df;
+  padding-top: 60px;
 }
 
-#appScreen {
-  min-height:100vh;
+.footer-content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
 }
 
-nav {
-  display:flex;
-  gap:5px;
-  padding:10px;
-  background:white;
-  border-bottom:1px solid var(--border);
-  overflow-x:auto;
-  white-space:nowrap;
+.footer-brand h2 {
+  color: white;
+  font-size: 21px;
+  margin-bottom: 12px;
 }
 
-nav button {
-  border:0;
-  background:#f1f5f9;
-  color:#334155;
-  padding:10px 13px;
-  border-radius:7px;
-  font-weight:bold;
+.footer-brand p {
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 
-nav button.active {
-  background:var(--primary);
-  color:white;
+.footer-links h3 {
+  color: white;
+  font-size: 17px;
+  margin-bottom: 15px;
 }
 
-main {
-  padding:15px;
-  max-width:1400px;
-  margin:auto;
+.footer-links a {
+  display: block;
+  margin: 8px 0;
+  font-size: 14px;
+  transition: .3s;
 }
 
-.page {
-  display:block;
+.footer-links a:hover {
+  color: #6ee7b7;
+  padding-left: 5px;
 }
 
-.panel {
-  background:white;
-  padding:16px;
-  border-radius:10px;
-  box-shadow:var(--shadow);
-  margin-bottom:15px;
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.12);
+  padding: 18px 5%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 12px;
+  color: #a7c4bc;
 }
 
-.stats-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
-  gap:12px;
-  margin-bottom:18px;
+/* ANIMATIONS */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.stat-card {
-  background:white;
-  padding:16px;
-  border-radius:10px;
-  box-shadow:var(--shadow);
+.hero-text,
+.hero-image-card {
+  animation: fadeUp .8s ease both;
 }
 
-.stat-label {
-  color:var(--muted);
-  font-size:12px;
-}
+/* RESPONSIVE TABLET */
 
-.stat-value {
-  font-size:23px;
-  font-weight:bold;
-  margin-top:8px;
-  color:var(--primary);
-}
+@media (max-width: 950px) {
 
-.table-wrap {
-  width:100%;
-  overflow-x:auto;
-}
-
-table {
-  border-collapse:collapse;
-  width:100%;
-  min-width:650px;
-  background:white;
-}
-
-th,td {
-  padding:11px;
-  text-align:left;
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-}
-
-th {
-  background:#f8fafc;
-  color:#334155;
-}
-
-.badge {
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:bold;
-}
-
-.badge-success {
-  background:#dcfce7;
-  color:#166534;
-}
-
-.badge-warning {
-  background:#fef3c7;
-  color:#92400e;
-}
-
-.badge-danger {
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.badge-info {
-  background:#dbeafe;
-  color:#1e40af;
-}
-
-.form-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:12px;
-}
-
-.form-actions {
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:15px;
-}
-
-.empty {
-  padding:18px;
-  text-align:center;
-  color:var(--muted);
-}
-
-@media(max-width:600px) {
-  header {
-    align-items:flex-start;
+  .navigation {
+    gap: 13px;
   }
 
-  main {
-    padding:10px;
+  .navigation a {
+    font-size: 12px;
   }
 
-  .panel {
-    padding:12px;
+  .hero-content {
+    gap: 30px;
   }
 
-  .stat-value {
-    font-size:20px;
+  .services-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+}
+
+/* RESPONSIVE TELEPHONE */
+
+@media (max-width: 760px) {
+
+  .container {
+    width: 92%;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .topbar-content {
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .header-content {
+    min-height: 72px;
+  }
+
+  .logo-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 25px;
+  }
+
+  .logo-text strong {
+    font-size: 14px;
+  }
+
+  .logo-text small {
+    font-size: 10px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .navigation {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,.1);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .navigation.active {
+    display: flex;
+  }
+
+  .navigation a {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .navigation .nav-button {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .hero {
+    padding: 65px 0;
+  }
+
+  .hero-content,
+  .about-grid,
+  .hours-content,
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .hero h1 {
+    font-size: 43px;
+  }
+
+  .hero-image {
+    min-height: 260px;
+  }
+
+  .hero-image-card {
+    min-height: 250px;
+  }
+
+  .about-image {
+    min-height: 270px;
+  }
+
+  .about-symbol {
+    font-size: 110px;
+  }
+
+  .branch-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .gallery-item {
+    min-height: 160px;
+  }
+
+  .hours-row {
+    font-size: 13px;
+  }
+
+  .contact-form {
+    padding: 22px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+}
+
+/* PETITS TELEPHONES */
+
+@media (max-width: 380px) {
+
+  .hero h1 {
+    font-size: 35px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hours-row {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+}
+
+/* ACCESSIBILITE */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
   }
 }
 </style>
+
+
+  
+
 </head>
 
-<body>
+<bod>
 
-<!-- CONNEXION -->
-<section id="loginScreen">
-  <div class="login-card">
+<!-- BARRE SUPERIEURE -->
 
-    <div class="login-logo">
-      GESTION PHARMACIE RAMBA
+<div class="topbar">
+  <div class="container topbar-content">
+    <span>Bienvenue à Pharmacie Ramba</span>
+    <span>Ouvert : Lundi – Samedi | 07h00 – 18h00</span>
+  </div>
+</div>
+
+<!-- EN-TETE -->
+
+<header class="header">
+
+  <div class="container header-content">
+
+    <a href="#accueil" class="logo">
+
+      <div class="logo-icon">✚</div>
+
+      <div class="logo-text">
+        <strong>PHARMACIE RAMBA</strong>
+        <small>Votre santé, notre priorité</small>
+      </div>
+
+    </a>
+
+    <button class="menu-toggle"
+      id="menuToggle"
+      aria-label="Ouvrir le menu">
+      ☰
+    </button>
+
+    <nav class="navigation" id="navigation">
+
+      <a href="#accueil">Accueil</a>
+
+      <a href="#apropos">À propos</a>
+
+      <a href="#pharmacies">Nos pharmacies</a>
+
+      <a href="#services">Services</a>
+
+      <a href="#galerie">Galerie</a>
+
+      <a href="#contact">Contact</a>
+
+      <a href="#gestion" class="nav-button">
+        Gestion
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+<!-- SECTION ACCUEIL -->
+
+<main>
+
+<section class="hero" id="accueil">
+
+  <div class="container hero-content">
+
+    <div class="hero-text">
+
+      <span class="hero-label">
+        VOTRE PARTENAIRE SANTÉ À BUJUMBURA
+      </span>
+
+      <h1>
+        Votre santé,<br>
+        <span>notre priorité.</span>
+      </h1>
+
+      <p>
+        Bienvenue chez Pharmacie Ramba.
+        Nous sommes à votre service dans nos deux
+        établissements à Bujumbura pour vous
+        accompagner dans votre santé et votre bien-être.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#pharmacies" class="btn btn-primary">
+          Découvrir nos pharmacies
+        </a>
+
+        <a href="#contact" class="btn btn-outline">
+          Nous contacter
+        </a>
+
+      </div>
+
     </div>
 
-    <div class="login-description">
-      Gestion intégrée des pharmacies
-      <br>
-      Votre santé, notre priorité
+    <div class="hero-image">
+
+      <div class="hero-image-card">
+        <div class="medical-symbol">✚</div>
+        <h2>PHARMACIE RAMBA</h2>
+        <p>La santé au cœur de nos engagements.</p>
+        <span>BUJUMBURA – BURUNDI</span>
+      </div>
+
     </div>
 
-    <h2>Connexion</h2>
+  </div>
 
-    <p class="login-description">
-      Accès sécurisé au système de gestion.
+</section>
+</main>
+
+<!-- LA SUITE DANS LA PARTIE 2/4 -->
+
+<!-- PRESENTATION -->
+
+<section class="about section" id="apropos">
+
+  <div class="container about-grid">
+
+    <div class="about-image">
+      <div class="about-symbol">✚</div>
+      <span>PHARMACIE RAMBA</span>
+    </div>
+
+    <div class="about-content">
+
+      <span class="section-label">QUI SOMMES-NOUS ?</span>
+
+      <h2>
+        Votre partenaire de confiance pour la santé
+      </h2>
+
+      <p>
+        Pharmacie Ramba est une entreprise pharmaceutique
+        située à Bujumbura, au Burundi.
+      </p>
+
+      <p>
+        Avec nos deux établissements, nous souhaitons
+        offrir un accueil professionnel, un service de
+        qualité et un accompagnement adapté aux besoins
+        de notre clientèle.
+      </p>
+
+      <p>
+        Notre engagement est de contribuer au bien-être
+        de la population en mettant la santé au centre
+        de nos priorités.
+      </p>
+
+      <a href="#pharmacies" class="btn btn-primary">
+        Découvrir nos établissements
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- NOS PHARMACIES -->
+
+<section class="branches section" id="pharmacies">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <span class="section-label">NOS ÉTABLISSEMENTS</span>
+
+      <h2>Retrouvez-nous à Bujumbura</h2>
+
+      <p>
+        Deux établissements pour être plus proches
+        de vous et de vos besoins.
+      </p>
+
+    </div>
+
+    <div class="branch-grid">
+
+      <!-- PHARMACIE 1 -->
+
+      <article class="branch-card">
+
+        <div class="branch-image branch-one">
+          <span>✚</span>
+          <small>PHARMACIE RAMBA</small>
+        </div>
+
+        <div class="branch-content">
+
+          <span class="branch-number">ÉTABLISSEMENT 01</span>
+
+          <h3>Pharmacie Ramba – Centre-ville</h3>
+
+          <p>
+            <strong>Adresse :</strong><br>
+            Avenue de l'Ambassade de la République
+            Démocratique du Congo,
+            Bujumbura, Burundi.
+          </p>
+
+          <p>
+            <strong>Horaires :</strong><br>
+            Lundi au samedi : 07h00 – 18h00
+          </p>
+
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Avenue+de+l%27Ambassade+de+la+RDC+Bujumbura+Burundi"
+            target="_blank"
+            rel="noopener"
+            class="branch-link">
+            Voir la localisation →
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- PHARMACIE 2 -->
+
+      <article class="branch-card">
+
+        <div class="branch-image branch-two">
+          <span>✚</span>
+          <small>PHARMACIE RAMBA</small>
+        </div>
+
+        <div class="branch-content">
+
+          <span class="branch-number">ÉTABLISSEMENT 02</span>
+
+          <h3>Pharmacie Ramba – Kamenge</h3>
+
+          <p>
+            <strong>Adresse :</strong><br>
+            À côté de l'Hôpital Roi Khaled,
+            Kamenge, Bujumbura, Burundi.
+          </p>
+
+          <p>
+            <strong>Horaires :</strong><br>
+            Lundi au samedi : 07h00 – 18h00
+          </p>
+
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Hopital+Roi+Khaled+Kamenge+Bujumbura+Burundi"
+            target="_blank"
+            rel="noopener"
+            class="branch-link">
+            Voir la localisation →
+          </a>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- NOS SERVICES -->
+
+<section class="services section" id="services">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <span class="section-label">NOS SERVICES</span>
+
+      <h2>Au service de votre santé</h2>
+
+      <p>
+        Découvrez les services proposés par Pharmacie Ramba.
+      </p>
+
+    </div>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+
+        <div class="service-icon">💊</div>
+
+        <h3>Médicaments</h3>
+
+        <p>
+          Accès aux médicaments et produits
+          pharmaceutiques selon disponibilité
+          et réglementation.
+        </p>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">🩺</div>
+
+        <h3>Conseils pharmaceutiques</h3>
+
+        <p>
+          Accompagnement et informations
+          sur le bon usage des médicaments.
+        </p>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">❤️</div>
+
+        <h3>Santé et bien-être</h3>
+
+        <p>
+          Produits et conseils pour contribuer
+          à votre bien-être quotidien.
+        </p>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">🤝</div>
+
+        <h3>Accueil professionnel</h3>
+
+        <p>
+          Une équipe à votre écoute pour vous
+          orienter et vous accompagner.
+        </p>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">👶</div>
+
+        <h3>Santé familiale</h3>
+
+        <p>
+          Des produits et solutions adaptés
+          aux besoins de toute la famille.
+        </p>
+
+      </div>
+
+
+      <div class="service-card">
+
+        <div class="service-icon">🏥</div>
+
+        <h3>Produits de santé</h3>
+
+        <p>
+          Découvrez notre sélection de produits
+          et accessoires de santé.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- HORAIRES -->
+
+<section class="opening-hours section">
+
+  <div class="container hours-content">
+
+    <div>
+      <span class="section-label">NOS HORAIRES</span>
+
+      <h2>Nous sommes à votre service</h2>
+
+      <p>
+        Retrouvez nos équipes dans nos deux établissements.
+      </p>
+    </div>
+
+    <div class="hours-box">
+
+      <div class="hours-row">
+        <span>Lundi – Samedi</span>
+        <strong>07h00 – 18h00</strong>
+      </div>
+
+      <div class="hours-row">
+        <span>Dimanche</span>
+        <strong>Fermé</strong>
+      </div>
+
+      <small>
+        Les horaires peuvent être adaptés selon les jours fériés.
+      </small>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- GALERIE -->
+
+<section class="gallery section" id="galerie">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <span class="section-label">NOTRE UNIVERS</span>
+
+      <h2>Galerie Pharmacie Ramba</h2>
+
+      <p>
+        Découvrez notre environnement et notre engagement
+        au service de votre santé.
+      </p>
+
+    </div>
+
+    <div class="gallery-grid">
+
+      <div class="gallery-item gallery-one">
+        <span>✚</span>
+        <p>Votre santé, notre priorité</p>
+      </div>
+
+      <div class="gallery-item gallery-two">
+        <span>💊</span>
+        <p>Produits pharmaceutiques</p>
+      </div>
+
+      <div class="gallery-item gallery-three">
+        <span>🏥</span>
+        <p>Nos établissements</p>
+      </div>
+
+      <div class="gallery-item gallery-four">
+        <span>🤝</span>
+        <p>À votre service</p>
+      </div>
+
+    </div>
+
+    <p class="gallery-note">
+      Les photos officielles de nos établissements
+      pourront être ajoutées ici.
     </p>
 
-    <form id="loginForm">
-
-      <label for="loginEmail">Adresse e-mail</label>
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="exemple@email.com"
-        autocomplete="username"
-        required
-      >
-
-      <label for="loginPassword">Mot de passe</label>
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="Votre mot de passe"
-        autocomplete="current-password"
-        required
-      >
-
-      <button type="submit" class="btn btn-block">
-        SE CONNECTER
-      </button>
-
-      <div id="loginMessage" class="message"></div>
-
-    </form>
   </div>
+
 </section>
 
-<!-- APPLICATION -->
-<section id="appScreen" class="hidden">
 
-  <header>
-    <div>
-      <div class="brand">GESTION PHARMACIE RAMBA</div>
-      <div class="subtitle">Gestion intégrée des pharmacies</div>
+<!-- CONTACT -->
+
+<section class="contact section" id="contact">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <span class="section-label">CONTACTEZ-NOUS</span>
+
+      <h2>Nous sommes à votre écoute</h2>
+
+      <p>
+        Pour toute information, contactez Pharmacie Ramba.
+      </p>
+
     </div>
 
-    <div class="connection" id="connectionStatus">
-      Vérification...
-    </div>
-  </header>
+    <div class="contact-grid">
 
-  <nav id="mainNavigation">
-    <button class="active" onclick="showPage('dashboard',this)">
-      Accueil
-    </button>
+      <!-- INFORMATIONS -->
 
-    <button onclick="showPage('medicines',this)">
-      Médicaments
-    </button>
+      <div class="contact-info">
 
-    <button onclick="showPage('stock',this)">
-      Stock
-    </button>
+        <div class="contact-card">
 
-    <button onclick="showPage('sales',this)">
-      Ventes
-    </button>
+          <div class="contact-icon">📍</div>
 
-    <button onclick="showPage('branches',this)">
-      Pharmacies
-    </button>
+          <div>
+            <h3>Nos adresses</h3>
 
-    <button onclick="showPage('employees',this)">
-      Employés
-    </button>
+            <p>
+              Avenue de l'Ambassade de la RDC,
+              Bujumbura.
+            </p>
 
-    <button onclick="showPage('reports',this)">
-      Rapports
-    </button>
+            <p>
+              Kamenge, à côté de l'Hôpital Roi Khaled.
+            </p>
+          </div>
 
-    <button onclick="showPage('history',this)">
-      Historique
-    </button>
-
-    <button onclick="showPage('notifications',this)">
-      Notifications
-      <span id="notificationCount">0</span>
-    </button>
-
-    <button onclick="logout()" class="btn-danger">
-      Déconnexion
-    </button>
-  </nav>
-
-  <main>
-
-    <!-- TABLEAU DE BORD -->
-    <section id="page-dashboard" class="page">
-
-      <div class="panel">
-        <h2>Tableau de bord</h2>
-        <p>Bienvenue dans Gestion Pharmacie Ramba.</p>
-
-        <div>
-          Utilisateur :
-          <strong id="dashboardUser">-</strong>
         </div>
 
-        <div style="margin-top:7px">
-          Rôle :
-          <strong id="dashboardRole">-</strong>
+
+        <div class="contact-card">
+
+          <div class="contact-icon">🕒</div>
+
+          <div>
+            <h3>Nos horaires</h3>
+
+            <p>Lundi au samedi</p>
+
+            <strong>07h00 – 18h00</strong>
+
+          </div>
+
         </div>
 
-        <div id="dashboardBranch" style="margin-top:7px">
-          -
-        </div>
-      </div>
 
-      <div class="stats-grid">
+        <div class="contact-card">
 
-        <div class="stat-card">
-          <div class="stat-label">Médicaments</div>
-          <div class="stat-value" id="statMedicines">0</div>
-        </div>
+          <div class="contact-icon">✉️</div>
 
-        <div class="stat-card">
-          <div class="stat-label">Lots en stock</div>
-          <div class="stat-value" id="statStock">0</div>
-        </div>
+          <div>
+            <h3>Adresse e-mail</h3>
 
-        <div class="stat-card">
-          <div class="stat-label">Pharmacies</div>
-          <div class="stat-value" id="statBranches">0</div>
+            <p>Adresse Gmail à compléter</p>
+
+            <a href="mailto:EMAIL_A_COMPLETER">
+              Envoyer un e-mail
+            </a>
+
+          </div>
+
         </div>
 
-        <div class="stat-card">
-          <div class="stat-label">Alertes</div>
-          <div class="stat-value" id="statAlerts">0</div>
+
+        <div class="contact-card">
+
+          <div class="contact-icon">📞</div>
+
+          <div>
+            <h3>Téléphone</h3>
+
+            <p>Numéro à compléter</p>
+
+          </div>
+
         </div>
 
       </div>
 
-      <div class="panel">
-        <h3>Alertes importantes</h3>
-        <div id="dashboardAlerts" class="empty">
-          Chargement des alertes...
-        </div>
-      </div>
 
-    </section>
+      <!-- FORMULAIRE -->
 
-    <!-- MÉDICAMENTS -->
-    <section id="page-medicines" class="page hidden">
+      <div class="contact-form">
 
-      <div class="panel">
-        <h2>Catalogue des médicaments</h2>
-        <p>Gestion des médicaments disponibles dans les pharmacies.</p>
+        <h3>Envoyez-nous un message</h3>
 
-        <div class="form-grid">
-          <div>
-            <label>Code médicament</label>
-            <input id="medicineCode" placeholder="MED001">
-          </div>
-
-          <div>
-            <label>Code-barres</label>
-            <input id="medicineBarcode" placeholder="Code-barres">
-          </div>
-
-          <div>
-            <label>Nom du médicament</label>
-            <input id="medicineName" placeholder="Nom commercial">
-          </div>
-
-          <div>
-            <label>Nom générique</label>
-            <input id="medicineGeneric" placeholder="Nom générique">
-          </div>
-
-          <div>
-            <label>Dosage / Concentration</label>
-            <input id="medicineStrength" placeholder="500 mg">
-          </div>
-
-          <div>
-            <label>Forme pharmaceutique</label>
-            <input id="medicineForm" placeholder="Comprimé, sirop...">
-          </div>
-
-          <div>
-            <label>Unités par boîte</label>
-            <input id="medicineUnitsPerBox" type="number" min="1" value="1">
-          </div>
-
-          <div>
-            <label>Boîtes par carton</label>
-            <input id="medicineBoxesPerCarton" type="number" min="1" value="1">
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button class="btn" onclick="saveMedicine()">
-            Enregistrer le médicament
-          </button>
-          <button class="btn btn-light" onclick="loadMedicines()">
-            Actualiser
-          </button>
-        </div>
-
-        <div id="medicineMessage" class="message"></div>
-      </div>
-
-      <div class="panel">
-        <h3>Liste des médicaments</h3>
-        <div id="medicinesContent" class="table-wrap">
-          Chargement...
-        </div>
-      </div>
-
-    </section>
-
-    <!-- STOCK -->
-    <section id="page-stock" class="page hidden">
-
-      <div class="panel">
-        <h2>Gestion du stock</h2>
-        <p>Suivi des lots, des quantités et des dates de péremption.</p>
-
-        <div class="form-actions">
-          <button class="btn btn-secondary" onclick="refreshStock()">
-            Actualiser le stock
-          </button>
-        </div>
-      </div>
-
-      <!-- FORMULAIRE RÉCEPTION -->
-      <div id="stockReceptionContent"></div>
-
-      <!-- TABLEAU STOCK -->
-      <div class="panel">
-        <h3>État du stock</h3>
-        <div id="stockTableContent" class="table-wrap">
-          Chargement du stock...
-        </div>
-      </div>
-
-    </section>
-
-    <!-- FOURNISSEURS -->
-    <section id="page-suppliers" class="page hidden">
-
-      <div class="panel">
-        <h2>Fournisseurs</h2>
-
-        <div class="form-grid">
-          <div>
-            <label>Nom du fournisseur</label>
-            <input id="supplierName" placeholder="Nom">
-          </div>
-
-          <div>
-            <label>Téléphone</label>
-            <input id="supplierPhone" placeholder="Téléphone">
-          </div>
-
-          <div>
-            <label>E-mail</label>
-            <input id="supplierEmail" type="email" placeholder="E-mail">
-          </div>
-
-          <div>
-            <label>Adresse</label>
-            <input id="supplierAddress" placeholder="Adresse">
-          </div>
-        </div>
-
-        <button class="btn btn-block" onclick="saveSupplier()">
-          Enregistrer le fournisseur
-        </button>
-
-        <div id="supplierMessage" class="message"></div>
-      </div>
-
-      <div class="panel">
-        <h3>Liste des fournisseurs</h3>
-        <div id="suppliersContent" class="table-wrap">
-          Chargement...
-        </div>
-      </div>
-
-    </section>
-
-    <!-- NOTIFICATIONS -->
-    <section id="page-notifications" class="page hidden">
-
-      <div class="panel">
-        <h2>Notifications et alertes</h2>
-        <p>Surveillance automatique du stock et des péremptions.</p>
-
-        <div id="notificationsContent">
-          Aucune notification pour le moment.
-        </div>
-
-        <button class="btn btn-secondary" onclick="buildNotifications()">
-          Actualiser les alertes
-        </button>
-      </div>
-
-    </section>
-
-    <!-- JAVASCRIPT PRINCIPAL -->
-    <script>
-    "use strict";
-
-    // CONFIGURATION SUPABASE
-
-
-const SUPABASE_URL = "https://hxwakendowpsllawxink.supabase.co";
-
-const SUPABASE_ANON_KEY = "sb_publishable_xTcM3AjJCbpF8W_rbUOyxQ_jzCEeq8o";
-
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
-
-      
-
-    // VARIABLES GLOBALES
-    let currentUser = null;
-    let currentProfile = null;
-    let currentMemberships = [];
-    let currentBranches = [];
-    let currentRole = "";
-    let currentBranchId = null;
-    let isSuperAdmin = false;
-    let isDirector = false;
-
-    let medicines = [];
-    let stockBatches = [];
-    let suppliers = [];
-    let notifications = [];
-
-    const el = id => document.getElementById(id);
-
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-      })[char]);
-    }
-
-    function showMessage(id, message, type="error") {
-      const node = el(id);
-      if (!node) return;
-
-      node.textContent = message;
-      node.className = "message " + type;
-    }
-
-    function money(value) {
-      return Number(value || 0).toLocaleString("fr-FR") + " BIF";
-    }
-
-    function todayDate() {
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = String(date.getMonth()+1).padStart(2,"0");
-      const day = String(date.getDate()).padStart(2,"0");
-      return `${year}-${month}-${day}`;
-    }
-
-    function getAllowedBranchIds() {
-      if (isSuperAdmin || isDirector) {
-        return currentBranches.map(branch => branch.id);
-      }
-
-      return currentMemberships
-        .map(membership => membership.branch_id)
-        .filter(Boolean);
-    }
-
-    function canAccessBranch(branchId) {
-      if (!branchId) return false;
-
-      if (isSuperAdmin || isDirector) return true;
-
-      return currentMemberships.some(
-        membership => membership.branch_id === branchId
-      );
-    }
-
-    function getBranchName(branchId) {
-      const branch = currentBranches.find(
-        item => item.id === branchId
-      );
-
-      return branch ? branch.name : "Pharmacie inconnue";
-    }
-
-    function batchQuantity(batch) {
-      return Number(
-        batch.quantity_base_units ??
-        batch.quantity ??
-        batch.current_quantity ??
-        0
-      );
-    }
-
-    function batchExpiry(batch) {
-      if (!batch.expiry_date) return null;
-
-      const date = new Date(batch.expiry_date + "T00:00:00");
-      return Number.isNaN(date.getTime()) ? null : date;
-    }
-
-    function daysUntilExpiry(batch) {
-      const expiry = batchExpiry(batch);
-      if (!expiry) return null;
-
-      const today = new Date(todayDate() + "T00:00:00");
-      return Math.floor((expiry - today) / 86400000);
-    }
-
-    function stockStatus(batch) {
-      const quantity = batchQuantity(batch);
-      const days = daysUntilExpiry(batch);
-
-      if (quantity <= 0) return "Rupture de stock";
-      if (days === null) return "Date inconnue";
-      if (days < 0) return "Expiré";
-      if (days <= 90) return "Expire bientôt";
-
-      return "Disponible";
-    }
-
-    function statusBadge(status) {
-      let css = "badge-success";
-
-      if (status === "Expiré" || status === "Rupture de stock") {
-        css = "badge-danger";
-      } else if (
-        status === "Expire bientôt" ||
-        status === "Date inconnue"
-      ) {
-        css = "badge-warning";
-      }
-
-      return `<span class="badge ${css}">${escapeHTML(status)}</span>`;
-    }
-
-    // CHARGER LES MÉDICAMENTS
-    async function loadMedicines() {
-      const container = el("medicinesContent");
-
-      try {
-        const {data,error} = await db
-          .from("medicines")
-          .select("*")
-          .order("name");
-
-        if (error) throw error;
-
-        medicines = data || [];
-        renderMedicines();
-
-        if (el("statMedicines")) {
-          el("statMedicines").textContent = medicines.length;
-        }
-
-      } catch (error) {
-        if (container) {
-          container.innerHTML =
-            `<div class="empty">Erreur médicaments : ${escapeHTML(error.message)}</div>`;
-        }
-      }
-    }
-
-    function renderMedicines() {
-      const container = el("medicinesContent");
-      if (!container) return;
-
-      if (!medicines.length) {
-        container.innerHTML = '<div class="empty">Aucun médicament enregistré.</div>';
-        return;
-      }
-
-      container.innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Nom</th>
-              <th>Générique</th>
-              <th>Dosage</th>
-              <th>Forme</th>
-              <th>Unités/boîte</th>
-              <th>Boîtes/carton</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${medicines.map(medicine => `
-              <tr>
-                <td>${escapeHTML(medicine.code)}</td>
-                <td>${escapeHTML(medicine.name)}</td>
-                <td>${escapeHTML(medicine.generic_name)}</td>
-                <td>${escapeHTML(medicine.strength)}</td>
-                <td>${escapeHTML(medicine.dosage_form)}</td>
-                <td>${escapeHTML(medicine.units_per_box)}</td>
-                <td>${escapeHTML(medicine.boxes_per_carton)}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      `;
-    }
-
-    // ENREGISTRER UN MÉDICAMENT
-    async function saveMedicine() {
-      try {
-        const name = el("medicineName").value.trim();
-
-        if (!name) {
-          throw new Error("Le nom du médicament est obligatoire.");
-        }
-
-        const units = Number(el("medicineUnitsPerBox").value);
-        const boxes = Number(el("medicineBoxesPerCarton").value);
-
-        if (!Number.isInteger(units) || units < 1 ||
-            !Number.isInteger(boxes) || boxes < 1) {
-          throw new Error("Les unités et les boîtes doivent être supérieures à zéro.");
-        }
-
-        const payload = {
-          code: el("medicineCode").value.trim() || null,
-          barcode: el("medicineBarcode").value.trim() || null,
-          name,
-          generic_name: el("medicineGeneric").value.trim() || null,
-          strength: el("medicineStrength").value.trim() || null,
-          dosage_form: el("medicineForm").value.trim() || null,
-          units_per_box: units,
-          boxes_per_carton: boxes
-        };
-
-        const {error} = await db
-          .from("medicines")
-          .insert(payload);
-
-        if (error) throw error;
-
-        showMessage("medicineMessage","Médicament enregistré.","success");
-
-        [
-          "medicineCode","medicineBarcode","medicineName",
-          "medicineGeneric","medicineStrength","medicineForm"
-        ].forEach(id => el(id).value = "");
-
-        el("medicineUnitsPerBox").value = 1;
-        el("medicineBoxesPerCarton").value = 1;
-
-        await loadMedicines();
-
-      } catch (error) {
-        showMessage("medicineMessage",error.message);
-      }
-    }
-
-    // CHARGER LE STOCK
-    async function loadStock() {
-      const container = el("stockTableContent");
-
-      try {
-        let query = db
-          .from("medicine_batches")
-          .select(`
-            *,
-            medicines(name,code),
-            branches(name)
-          `)
-          .order("expiry_date",{ascending:true});
-
-        if (!isSuperAdmin && !isDirector) {
-          const branchIds = getAllowedBranchIds();
-
-          if (!branchIds.length) {
-            stockBatches = [];
-            renderStock();
-            return;
-          }
-
-          query = query.in("branch_id",branchIds);
-        }
-
-        const {data,error} = await query;
-
-        if (error) throw error;
-
-        stockBatches = data || [];
-
-        renderStock();
-        updateDashboard();
-        buildNotifications();
-
-      } catch (error) {
-        if (container) {
-          container.innerHTML =
-            `<div class="empty">Erreur stock : ${escapeHTML(error.message)}</div>`;
-        }
-      }
-    }
-
-    function renderStock() {
-      const container = el("stockTableContent");
-      if (!container) return;
-
-      if (!stockBatches.length) {
-        container.innerHTML = '<div class="empty">Aucun lot en stock.</div>';
-        return;
-      }
-
-      container.innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Pharmacie</th>
-              <th>Médicament</th>
-              <th>N° lot</th>
-              <th>Date péremption</th>
-              <th>Quantité</th>
-              <th>Statut</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${stockBatches.map(batch => {
-              const status = stockStatus(batch);
-
-              return `
-                <tr>
-                  <td>${escapeHTML(batch.branches?.name || getBranchName(batch.branch_id))}</td>
-                  <td>${escapeHTML(batch.medicines?.name || "Inconnu")}</td>
-                  <td>${escapeHTML(batch.lot_number)}</td>
-                  <td>${escapeHTML(batch.expiry_date)}</td>
-                  <td>${batchQuantity(batch)}</td>
-                  <td>${statusBadge(status)}</td>
-                </tr>
-              `;
-            }).join("")}
-          </tbody>
-        </table>
-      `;
-    }
-
-    async function refreshStock() {
-      await loadStock();
-      await loadSuppliers();
-      renderStockReceptionForm();
-    }
-
-    // CHARGER LES FOURNISSEURS
-    async function loadSuppliers() {
-      try {
-        const {data,error} = await db
-          .from("suppliers")
-          .select("*")
-          .order("name");
-
-        if (error) throw error;
-
-        suppliers = data || [];
-        renderSuppliers();
-
-      } catch (error) {
-        const container = el("suppliersContent");
-        if (container) {
-          container.innerHTML =
-            `<div class="empty">Erreur fournisseurs : ${escapeHTML(error.message)}</div>`;
-        }
-      }
-    }
-
-    function renderSuppliers() {
-      const container = el("suppliersContent");
-      if (!container) return;
-
-      if (!suppliers.length) {
-        container.innerHTML = '<div class="empty">Aucun fournisseur enregistré.</div>';
-        return;
-      }
-
-      container.innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Téléphone</th>
-              <th>E-mail</th>
-              <th>Adresse</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${suppliers.map(supplier => `
-              <tr>
-                <td>${escapeHTML(supplier.name)}</td>
-                <td>${escapeHTML(supplier.phone)}</td>
-                <td>${escapeHTML(supplier.email)}</td>
-                <td>${escapeHTML(supplier.address)}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      `;
-
-      renderStockReceptionForm();
-    }
-
-    // ENREGISTRER UN FOURNISSEUR
-    async function saveSupplier() {
-      try {
-        const name = el("supplierName").value.trim();
-
-        if (!name) {
-          throw new Error("Le nom du fournisseur est obligatoire.");
-        }
-
-        const payload = {
-          name,
-          phone: el("supplierPhone").value.trim() || null,
-          email: el("supplierEmail").value.trim() || null,
-          address: el("supplierAddress").value.trim() || null
-        };
-
-        const {error} = await db
-          .from("suppliers")
-          .insert(payload);
-
-        if (error) throw error;
-
-        showMessage("supplierMessage","Fournisseur enregistré.","success");
-
-        ["supplierName","supplierPhone","supplierEmail","supplierAddress"]
-          .forEach(id => el(id).value = "");
-
-        await loadSuppliers();
-
-      } catch (error) {
-        showMessage("supplierMessage",error.message);
-      }
-    }
-
-    // FORMULAIRE RÉCEPTION STOCK
-    function renderStockReceptionForm() {
-      const container = el("stockReceptionContent");
-      if (!container) return;
-
-      const branchOptions = currentBranches
-        .filter(branch => isSuperAdmin || isDirector || canAccessBranch(branch.id))
-        .map(branch => `
-          <option value="${escapeHTML(branch.id)}">
-            ${escapeHTML(branch.name)}
-          </option>
-        `).join("");
-
-      const medicineOptions = medicines.map(medicine => `
-        <option value="${escapeHTML(medicine.id)}">
-          ${escapeHTML(medicine.name)} (${escapeHTML(medicine.code)})
-        </option>
-      `).join("");
-
-      const supplierOptions = suppliers.map(supplier => `
-        <option value="${escapeHTML(supplier.id)}">
-          ${escapeHTML(supplier.name)}
-        </option>
-      `).join("");
-
-      container.innerHTML = `
-        <div class="panel">
-          <h3>Réception de stock par cartons</h3>
-
-          <form id="stockReceptionForm">
-
-            <div class="form-grid">
-
-              <div>
-                <label>Pharmacie</label>
-                <select id="receiveBranch" required>
-                  <option value="">Choisir une pharmacie</option>
-                  ${branchOptions}
-                </select>
-              </div>
-
-              <div>
-                <label>Médicament</label>
-                <select id="receiveMedicine" required>
-                  <option value="">Choisir un médicament</option>
-                  ${medicineOptions}
-                </select>
-              </div>
-
-              <div>
-                <label>Fournisseur</label>
-                <select id="receiveSupplier">
-                  <option value="">Choisir un fournisseur</option>
-                  ${supplierOptions}
-                </select>
-              </div>
-
-              <div>
-                <label>Numéro de lot</label>
-                <input id="receiveLot" required placeholder="LOT-001">
-              </div>
-
-              <div>
-                <label>Date de fabrication</label>
-                <input id="receiveManufacture" type="date">
-              </div>
-
-              <div>
-                <label>Date de péremption</label>
-                <input id="receiveExpiry" type="date" required>
-              </div>
-
-              <div>
-                <label>Nombre de cartons reçus</label>
-                <input id="receiveCartons" type="number" min="1" step="1" required>
-              </div>
-
-              <div>
-                <label>Prix d'achat par carton (BIF)</label>
-                <input id="receivePurchasePrice" type="number" min="0" step="0.01" required>
-              </div>
-
-              <div>
-                <label>Prix de vente par unité (BIF)</label>
-                <input id="receiveSellingPrice" type="number" min="0" step="0.01" required>
-              </div>
-
-              <div>
-                <label>Référence facture</label>
-                <input id="receiveReference" placeholder="Facture / Bon">
-              </div>
-
-            </div>
-
-            <label>Notes</label>
-            <textarea id="receiveNotes" placeholder="Observations..."></textarea>
-
-            <div class="form-actions">
-              <button type="submit" class="btn">
-                Enregistrer la réception
-              </button>
-            </div>
-
-            <div id="receiveMessage" class="message"></div>
-
-          </form>
-        </div>
-      `;
-
-      el("stockReceptionForm").addEventListener("submit",receiveStock);
-    }
-
-    // ENREGISTRER UNE RÉCEPTION
-    async function receiveStock(event) {
-      event.preventDefault();
-
-      try {
-        const branchId = el("receiveBranch").value;
-        const medicineId = el("receiveMedicine").value;
-        const lot = el("receiveLot").value.trim();
-        const expiry = el("receiveExpiry").value;
-        const cartons = Number(el("receiveCartons").value);
-        const purchasePrice = Number(el("receivePurchasePrice").value);
-        const sellingPrice = Number(el("receiveSellingPrice").value);
-
-        if (!canAccessBranch(branchId)) {
-          throw new Error("Vous n'avez pas accès à cette pharmacie.");
-        }
-
-        if (!medicineId || !lot || !expiry) {
-          throw new Error("Veuillez remplir les champs obligatoires.");
-        }
-
-        if (expiry <= todayDate()) {
-          throw new Error("La date de péremption doit être dans le futur.");
-        }
-
-        if (!Number.isInteger(cartons) || cartons < 1) {
-          throw new Error("Le nombre de cartons doit être supérieur à zéro.");
-        }
-
-        if (purchasePrice < 0 || sellingPrice < 0 ||
-            !Number.isFinite(purchasePrice) ||
-            !Number.isFinite(sellingPrice)) {
-          throw new Error("Vérifiez les prix saisis.");
-        }
-
-        const {data,error} = await db.rpc("receive_stock_cartons",{
-          p_branch_id:branchId,
-          p_medicine_id:medicineId,
-          p_lot_number:lot,
-          p_expiry_date:expiry,
-          p_cartons_received:cartons,
-          p_purchase_price_per_carton:purchasePrice,
-          p_selling_price_per_unit:sellingPrice,
-          p_supplier_id:el("receiveSupplier").value || null,
-          p_manufacture_date:el("receiveManufacture").value || null,
-          p_reference_number:el("receiveReference").value.trim() || null,
-          p_notes:el("receiveNotes").value.trim() || null
-        });
-
-        if (error) throw error;
-
-        showMessage(
-          "receiveMessage",
-          "Réception enregistrée avec succès.",
-          "success"
-        );
-
-        el("stockReceptionForm").reset();
-
-        await loadStock();
-        await loadSuppliers();
-        renderStockReceptionForm();
-
-      } catch (error) {
-        showMessage("receiveMessage",error.message);
-      }
-    }
-
-    // NOTIFICATIONS
-    function buildNotifications() {
-      notifications = [];
-
-      stockBatches.forEach(batch => {
-        const quantity = batchQuantity(batch);
-        const days = daysUntilExpiry(batch);
-        const medicineName = batch.medicines?.name || "Médicament inconnu";
-        const branchName = batch.branches?.name || getBranchName(batch.branch_id);
-
-        if (quantity <= 0) {
-          notifications.push({
-            type:"danger",
-            title:"Rupture de stock",
-            detail:`${medicineName} — ${branchName}`
-          });
-        }
-
-        if (days !== null && days < 0) {
-          notifications.push({
-            type:"danger",
-            title:"Médicament expiré",
-            detail:`${medicineName} — Lot ${batch.lot_number}`
-          });
-        } else if (days !== null && days <= 90) {
-          notifications.push({
-            type:"warning",
-            title:"Péremption proche",
-            detail:`${medicineName} — Expire dans ${days} jour(s)`
-          });
-        }
-
-        if (days === null) {
-          notifications.push({
-            type:"warning",
-            title:"Date de péremption inconnue",
-            detail:`${medicineName} — Lot ${batch.lot_number}`
-          });
-        }
-      });
-
-      const count = el("notificationCount");
-      if (count) count.textContent = notifications.length;
-
-      const stat = el("statAlerts");
-      if (stat) stat.textContent = notifications.length;
-
-      renderNotifications();
-      renderDashboardAlerts();
-    }
-
-    function renderNotifications() {
-      const container = el("notificationsContent");
-      if (!container) return;
-
-      if (!notifications.length) {
-        container.innerHTML = '<div class="empty">Aucune alerte. Le stock est sous surveillance.</div>';
-        return;
-      }
-
-      container.innerHTML = notifications.map(item => `
-        <div class="panel" style="border-left:4px solid ${item.type === "danger" ? "#dc2626" : "#d97706"}">
-          <strong>${escapeHTML(item.title)}</strong>
-          <p>${escapeHTML(item.detail)}</p>
-        </div>
-      `).join("");
-    }
-
-    function renderDashboardAlerts() {
-      const container = el("dashboardAlerts");
-      if (!container) return;
-
-      if (!notifications.length) {
-        container.innerHTML = "Aucune alerte importante.";
-        return;
-      }
-
-      container.innerHTML = notifications.slice(0,5).map(item => `
         <p>
-          ${item.type === "danger" ? "🔴" : "🟠"}
-          <strong>${escapeHTML(item.title)}</strong> :
-          ${escapeHTML(item.detail)}
+          Remplissez ce formulaire pour nous contacter.
         </p>
-      `).join("");
-    }
 
-    function updateDashboard() {
-      if (el("statMedicines")) {
-        el("statMedicines").textContent = medicines.length;
-      }
+        <form id="contactForm">
 
-      if (el("statStock")) {
-        el("statStock").textContent = stockBatches.length;
-      }
+          <label for="name">Nom complet</label>
 
-      if (el("statBranches")) {
-        el("statBranches").textContent = currentBranches.length;
-      }
+          <input
+            type="text"
+            id="name"
+            placeholder="Votre nom"
+            required
+          >
 
-      renderDashboardAlerts();
-    }
-    </script>
+          <label for="email">Adresse e-mail</label>
 
-    <!-- VENTES -->
-    <section id="page-sales" class="page hidden">
+          <input
+            type="email"
+            id="email"
+            placeholder="Votre adresse e-mail"
+            required
+          >
 
-      <div class="panel">
-        <h2>Nouvelle vente</h2>
-        <p>Enregistrement des ventes avec déduction automatique du stock.</p>
+          <label for="subject">Sujet</label>
 
-        <form id="saleForm">
+          <input
+            type="text"
+            id="subject"
+            placeholder="Sujet du message"
+            required
+          >
 
-          <div class="form-grid">
+          <label for="message">Votre message</label>
 
-            <div>
-              <label>Pharmacie</label>
-              <select id="saleBranch" required>
-                <option value="">Choisir une pharmacie</option>
-              </select>
-            </div>
+          <textarea
+            id="message"
+            rows="5"
+            placeholder="Écrivez votre message..."
+            required
+          ></textarea>
 
-            <div>
-              <label>Nom du client</label>
-              <input id="saleCustomer" placeholder="Nom du client">
-            </div>
+          <button type="submit" class="btn btn-primary">
+            Envoyer le message
+          </button>
 
-            <div>
-              <label>Téléphone du client</label>
-              <input id="salePhone" placeholder="Téléphone">
-            </div>
-
-            <div>
-              <label>Médicament</label>
-              <select id="saleMedicine" required>
-                <option value="">Choisir un médicament</option>
-              </select>
-            </div>
-
-            <div>
-              <label>Quantité (unités)</label>
-              <input id="saleQuantity" type="number" min="1" step="1" required>
-            </div>
-
-            <div>
-              <label>Remise (BIF)</label>
-              <input id="saleDiscount" type="number" min="0" step="0.01" value="0">
-            </div>
-
-            <div>
-              <label>Montant payé (BIF)</label>
-              <input id="saleAmountPaid" type="number" min="0" step="0.01" value="0">
-            </div>
-
-            <div>
-              <label>Mode de paiement</label>
-              <select id="salePaymentMethod">
-                <option value="CASH">Espèces</option>
-                <option value="MOBILE_MONEY">Mobile Money</option>
-                <option value="BANK">Banque</option>
-                <option value="OTHER">Autre</option>
-              </select>
-            </div>
-
-          </div>
-
-          <div id="saleStockInfo" class="message"></div>
-
-          <label>Notes</label>
-          <textarea id="saleNotes" placeholder="Notes sur la vente..."></textarea>
-
-          <div class="form-actions">
-            <button type="submit" class="btn">
-              Enregistrer la vente
-            </button>
-          </div>
-
-          <div id="saleMessage" class="message"></div>
+          <p id="formMessage"></p>
 
         </form>
+
       </div>
 
-      <div class="panel">
-        <h3>Dernier reçu</h3>
-        <div id="saleReceipt" class="empty">
-          Aucun reçu disponible.
-        </div>
-      </div>
+    </div>
 
-    </section>
+  </div>
 
-    <!-- PHARMACIES -->
-    <section id="page-branches" class="page hidden">
-
-      <div class="panel">
-        <h2>Pharmacies</h2>
-        <p>Gestion des deux établissements Pharmacie Ramba.</p>
-
-        <div id="branchesContent" class="table-wrap">
-          Chargement...
-        </div>
-      </div>
-
-    </section>
-
-    <!-- EMPLOYÉS -->
-    <section id="page-employees" class="page hidden">
-
-      <div class="panel">
-        <h2>Employés et utilisateurs</h2>
-        <p>Consultation des utilisateurs et de leurs rôles.</p>
-
-        <div id="employeesContent" class="table-wrap">
-          Chargement...
-        </div>
-      </div>
-
-    </section>
-
-    <!-- RAPPORTS -->
-    <section id="page-reports" class="page hidden">
-
-      <div class="panel">
-        <h2>Rapports de stock</h2>
-        <p>Résumé des quantités et des péremptions.</p>
-
-        <div id="reportsContent">
-          Chargement...
-        </div>
-      </div>
-
-    </section>
-
-    <!-- HISTORIQUE -->
-    <section id="page-history" class="page hidden">
-
-      <div class="panel">
-        <h2>Historique des opérations</h2>
-
-        <div id="historyContent" class="table-wrap">
-          Chargement...
-        </div>
-      </div>
-
-    </section>
-
-    <script>
-    // NAVIGATION ENTRE LES PAGES
-    async function showPage(page, button=null) {
-      const allowedPages = [
-        "dashboard","medicines","stock","sales",
-        "branches","employees","reports",
-        "history","notifications","suppliers"
-      ];
-
-      if (!allowedPages.includes(page)) return;
-
-      document.querySelectorAll("main > section.page").forEach(section => {
-        section.classList.add("hidden");
-      });
-
-      const target = el("page-" + page);
-      if (!target) return;
-
-      target.classList.remove("hidden");
-
-      document.querySelectorAll("#mainNavigation button").forEach(btn => {
-        btn.classList.remove("active");
-      });
-
-      if (button) button.classList.add("active");
-
-      try {
-        if (page === "dashboard") {
-          updateDashboard();
-          buildNotifications();
-        }
-
-        if (page === "medicines") {
-          await loadMedicines();
-        }
-
-        if (page === "stock") {
-          await loadMedicines();
-          await loadSuppliers();
-          await loadStock();
-          renderStockReceptionForm();
-        }
-
-        if (page === "suppliers") {
-          await loadSuppliers();
-        }
-
-        if (page === "sales") {
-          await loadMedicines();
-          renderSales();
-        }
-
-        if (page === "branches") {
-          await loadBranches();
-        }
-
-        if (page === "employees") {
-          await loadEmployees();
-        }
-
-        if (page === "reports") {
-          renderReports();
-        }
-
-        if (page === "history") {
-          await loadAuditLogs();
-        }
-
-        if (page === "notifications") {
-          buildNotifications();
-        }
-
-      } catch (error) {
-        console.error("Erreur navigation :",error);
-      }
-    }
-
-    // FORMULAIRE DES VENTES
-    function renderSales() {
-      const branchSelect = el("saleBranch");
-      const medicineSelect = el("saleMedicine");
-
-      if (!branchSelect || !medicineSelect) return;
-
-      const previousBranch = branchSelect.value;
-      const previousMedicine = medicineSelect.value;
-
-      branchSelect.innerHTML =
-        '<option value="">Choisir une pharmacie</option>' +
-        currentBranches
-          .filter(branch => canAccessBranch(branch.id))
-          .map(branch => `
-            <option value="${escapeHTML(branch.id)}">
-              ${escapeHTML(branch.name)}
-            </option>
-          `).join("");
-
-      medicineSelect.innerHTML =
-        '<option value="">Choisir un médicament</option>' +
-        medicines.map(medicine => `
-          <option value="${escapeHTML(medicine.id)}">
-            ${escapeHTML(medicine.name)} (${escapeHTML(medicine.code)})
-          </option>
-        `).join("");
-
-      if (previousBranch) branchSelect.value = previousBranch;
-      if (previousMedicine) medicineSelect.value = previousMedicine;
-
-      branchSelect.onchange = updateSaleAvailability;
-      medicineSelect.onchange = updateSaleAvailability;
-
-      updateSaleAvailability();
-
-      const form = el("saleForm");
-
-      if (form && !form.dataset.listenerAttached) {
-        form.addEventListener("submit",processSale);
-        form.dataset.listenerAttached = "true";
-      }
-    }
-
-    // VÉRIFIER LE STOCK DISPONIBLE
-    function updateSaleAvailability() {
-      const branchId = el("saleBranch")?.value;
-      const medicineId = el("saleMedicine")?.value;
-      const quantityInput = el("saleQuantity");
-      const info = el("saleStockInfo");
-
-      if (!quantityInput || !info) return;
-
-      quantityInput.value = "";
-      quantityInput.disabled = true;
-      quantityInput.removeAttribute("max");
-
-      if (!branchId || !medicineId) {
-        info.className = "message";
-        info.textContent = "";
-        return;
-      }
-
-      if (!canAccessBranch(branchId)) {
-        info.className = "message error";
-        info.textContent = "Vous n'avez pas accès à cette pharmacie.";
-        return;
-      }
-
-      const today = todayDate();
-
-      const availableBatches = stockBatches.filter(batch => {
-        if (batch.branch_id !== branchId) return false;
-        if (batch.medicine_id !== medicineId) return false;
-        if (batchQuantity(batch) <= 0) return false;
-
-        const status = String(batch.status || "").toUpperCase();
-
-        if (status === "EXPIRED") return false;
-
-        if (batch.expiry_date && batch.expiry_date < today) {
-          return false;
-        }
-
-        return true;
-      });
-
-      const total = availableBatches.reduce(
-        (sum,batch) => sum + batchQuantity(batch),0
-      );
-
-      if (total <= 0) {
-        info.className = "message error";
-        info.textContent = "Aucun stock disponible pour ce médicament.";
-        return;
-      }
-
-      quantityInput.disabled = false;
-      quantityInput.max = total;
-
-      info.className = "message success";
-      info.textContent = `Stock disponible : ${total} unité(s).`;
-
-    }
-
-    // TRAITER UNE VENTE
-    async function processSale(event) {
-      event.preventDefault();
-
-      const message = el("saleMessage");
-
-      try {
-        const branchId = el("saleBranch").value;
-        const medicineId = el("saleMedicine").value;
-        const quantity = Number(el("saleQuantity").value);
-        const discount = Number(el("saleDiscount").value || 0);
-        const amountPaid = Number(el("saleAmountPaid").value || 0);
-
-        if (!canAccessBranch(branchId)) {
-          throw new Error("Vous n'avez pas accès à cette pharmacie.");
-        }
-
-        if (!medicineId || !Number.isInteger(quantity) || quantity < 1) {
-          throw new Error("Choisissez un médicament et une quantité valide.");
-        }
-
-        if (!Number.isFinite(discount) || discount < 0 ||
-            !Number.isFinite(amountPaid) || amountPaid < 0) {
-          throw new Error("Vérifiez la remise et le montant payé.");
-        }
-
-        const available = stockBatches
-          .filter(batch =>
-            batch.branch_id === branchId &&
-            batch.medicine_id === medicineId &&
-            batchQuantity(batch) > 0 &&
-            (!batch.expiry_date || batch.expiry_date >= todayDate()) &&
-            String(batch.status || "").toUpperCase() !== "EXPIRED"
-          )
-          .reduce((sum,batch) => sum + batchQuantity(batch),0);
-
-        if (quantity > available) {
-          throw new Error(`Stock insuffisant. Disponible : ${available} unité(s).`);
-        }
-
-        const paymentMethod = el("salePaymentMethod").value;
-
-        const payload = {
-          p_branch_id:branchId,
-          p_items:[{
-            medicine_id:medicineId,
-            quantity:quantity
-          }],
-          p_customer_name:el("saleCustomer").value.trim() || null,
-          p_customer_phone:el("salePhone").value.trim() || null,
-          p_discount:discount,
-          p_amount_paid:amountPaid,
-          p_payment_method:paymentMethod,
-          p_notes:el("saleNotes").value.trim() || null
-        };
-
-        const submitButton = el("saleForm").querySelector(
-          'button[type="submit"]'
-        );
-
-        submitButton.disabled = true;
-        submitButton.textContent = "Enregistrement...";
-
-        const {data,error} = await db.rpc("process_sale",payload);
-
-        submitButton.disabled = false;
-        submitButton.textContent = "Enregistrer la vente";
-
-        if (error) throw error;
-
-        if (!data || data.success !== true) {
-          throw new Error(data?.message || "La vente n'a pas été confirmée.");
-        }
-
-        renderSaleReceipt(data);
-
-        showMessage(
-          "saleMessage",
-          "Vente enregistrée avec succès.",
-          "success"
-        );
-
-        el("saleForm").reset();
-
-        await loadStock();
-        await loadAuditLogs();
-
-        updateSaleAvailability();
-
-      } catch (error) {
-        showMessage("saleMessage",error.message);
-
-        const button = el("saleForm")?.querySelector(
-          'button[type="submit"]'
-        );
-
-        if (button) {
-          button.disabled = false;
-          button.textContent = "Enregistrer la vente";
-        }
-      }
-    }
-
-    // REÇU DE VENTE
-    function renderSaleReceipt(data) {
-      const container = el("saleReceipt");
-      if (!container) return;
-
-      container.innerHTML = `
-        <div class="panel">
-          <h3>REÇU DE VENTE</h3>
-
-          <p><strong>Numéro :</strong>
-            ${escapeHTML(data.invoice_number || data.sale_id || "-")}
-          </p>
-
-          <p><strong>Sous-total :</strong>
-            ${money(data.subtotal)}
-          </p>
-
-          <p><strong>Remise :</strong>
-            ${money(data.discount)}
-          </p>
-
-          <p><strong>Total :</strong>
-            <strong>${money(data.total_amount)}</strong>
-          </p>
-
-          <p><strong>Montant payé :</strong>
-            ${money(data.amount_paid)}
-          </p>
-
-          <p><strong>Statut :</strong>
-            ${escapeHTML(data.payment_status || "-")}
-          </p>
-
-          <button class="btn btn-secondary" onclick="window.print()">
-            Imprimer le reçu
-          </button>
-        </div>
-      `;
-    }
-
-    // CHARGER LES PHARMACIES
-    async function loadBranches() {
-      const container = el("branchesContent");
-
-      try {
-        const {data,error} = await db
-          .from("branches")
-          .select("id,code,name,address,phone,is_active")
-          .order("name");
-
-        if (error) throw error;
-
-        currentBranches = data || [];
-
-        if (!container) return;
-
-        container.innerHTML = `
-          <table>
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Pharmacie</th>
-                <th>Adresse</th>
-                <th>Téléphone</th>
-                <th>Statut</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${currentBranches.map(branch => `
-                <tr>
-                  <td>${escapeHTML(branch.code)}</td>
-                  <td>${escapeHTML(branch.name)}</td>
-                  <td>${escapeHTML(branch.address)}</td>
-                  <td>${escapeHTML(branch.phone)}</td>
-                  <td>${branch.is_active
-                    ? '<span class="badge badge-success">Active</span>'
-                    : '<span class="badge badge-danger">Inactive</span>'}
-                  </td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
-        `;
-
-      } catch (error) {
-        if (container) {
-          container.innerHTML =
-            `<div class="empty">Erreur pharmacies : ${escapeHTML(error.message)}</div>`;
-        }
-      }
-    }
-
-    // CHARGER LES EMPLOYÉS
-    async function loadEmployees() {
-      const container = el("employeesContent");
-      if (!container) return;
-
-      try {
-        let query = db
-          .from("memberships")
-          .select(`
-            id,user_id,branch_id,role,
-            profiles(full_name,phone,is_active),
-            branches(name)
-          `)
-          .order("created_at",{ascending:false});
-
-        if (!isSuperAdmin && !isDirector) {
-          const branchIds = getAllowedBranchIds();
-
-          if (!branchIds.length) {
-            container.innerHTML = '<div class="empty">Aucun employé accessible.</div>';
-            return;
-          }
-
-          query = query.in("branch_id",branchIds);
-        }
-
-        const {data,error} = await query;
-
-        if (error) throw error;
-
-        container.innerHTML = `
-          <table>
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>Téléphone</th>
-                <th>Rôle</th>
-                <th>Pharmacie</th>
-                <th>Statut</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${(data || []).map(item => `
-                <tr>
-                  <td>${escapeHTML(item.profiles?.full_name || "Utilisateur")}</td>
-                  <td>${escapeHTML(item.profiles?.phone || "-")}</td>
-                  <td>${escapeHTML(item.role)}</td>
-                  <td>${escapeHTML(item.branches?.name || "-")}</td>
-                  <td>${item.profiles?.is_active
-                    ? '<span class="badge badge-success">Actif</span>'
-                    : '<span class="badge badge-danger">Inactif</span>'}
-                  </td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
-        `;
-
-      } catch (error) {
-        container.innerHTML =
-          `<div class="empty">Erreur employés : ${escapeHTML(error.message)}</div>`;
-      }
-    }
-
-    // RAPPORTS
-    function renderReports() {
-      const container = el("reportsContent");
-      if (!container) return;
-
-      const totalUnits = stockBatches.reduce(
-        (sum,batch) => sum + batchQuantity(batch),0
-      );
-
-      const expired = stockBatches.filter(
-        batch => daysUntilExpiry(batch) !== null &&
-                 daysUntilExpiry(batch) < 0
-      ).length;
-
-      const expiring = stockBatches.filter(
-        batch => daysUntilExpiry(batch) !== null &&
-                 daysUntilExpiry(batch) >= 0 &&
-                 daysUntilExpiry(batch) <= 90
-      ).length;
-
-      container.innerHTML = `
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Quantité totale</div>
-            <div class="stat-value">${totalUnits}</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Lots expirés</div>
-            <div class="stat-value">${expired}</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Péremption proche</div>
-            <div class="stat-value">${expiring}</div>
-          </div>
-        </div>
-
-        <p>Rapport calculé à partir des lots actuellement accessibles.</p>
-      `;
-    }
-
-    // HISTORIQUE
-    async function loadAuditLogs() {
-      const container = el("historyContent");
-      if (!container) return;
-
-      try {
-        let query = db
-          .from("audit_logs")
-          .select("*")
-          .order("created_at",{ascending:false})
-          .limit(50);
-
-        const {data,error} = await query;
-
-        if (error) throw error;
-
-        container.innerHTML = `
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Action</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${(data || []).map(item => `
-                <tr>
-                  <td>${escapeHTML(item.created_at
-                    ? new Date(item.created_at).toLocaleString("fr-FR")
-                    : "-")}
-                  </td>
-                  <td>${escapeHTML(item.action)}</td>
-                  <td>${escapeHTML(item.entity_type)}</td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
-        `;
-
-      } catch (error) {
-        container.innerHTML =
-          `<div class="empty">Erreur historique : ${escapeHTML(error.message)}</div>`;
-      }
-    }
-    </script>
-
-    <script>
-    // CONNEXION UTILISATEUR
-    async function login(event) {
-      event.preventDefault();
-
-      const email = el("loginEmail").value.trim();
-      const password = el("loginPassword").value;
-      const button = el("loginForm").querySelector("button");
-
-      try {
-        button.disabled = true;
-        button.textContent = "Connexion...";
-
-        const {data,error} = await db.auth.signInWithPassword({
-          email,
-          password
-        });
-
-        if (error) throw error;
-
-        currentUser = data.user;
-
-        await loadUserData();
-
-        el("loginScreen").classList.add("hidden");
-        el("appScreen").classList.remove("hidden");
-
-        await loadAllData();
-
-        showPage("dashboard");
-
-      } catch (error) {
-        await db.auth.signOut();
-
-        currentUser = null;
-
-        showMessage("loginMessage",error.message);
-
-      } finally {
-        button.disabled = false;
-        button.textContent = "SE CONNECTER";
-      }
-    }
-
-    // CHARGER PROFIL ET RÔLES
-    async function loadUserData() {
-      if (!currentUser) {
-        throw new Error("Utilisateur non connecté.");
-      }
-
-      const {data:profile,error:profileError} = await db
-        .from("profiles")
-        .select("id,full_name,phone,is_active")
-        .eq("id",currentUser.id)
-        .maybeSingle();
-
-      if (profileError) throw profileError;
-
-      if (!profile) {
-        throw new Error("Profil utilisateur introuvable.");
-      }
-
-      if (profile.is_active === false) {
-        throw new Error("Ce compte utilisateur est désactivé.");
-      }
-
-      currentProfile = profile;
-
-      const {data:memberships,error:membershipError} = await db
-        .from("memberships")
-        .select("id,user_id,branch_id,role")
-        .eq("user_id",currentUser.id);
-
-      if (membershipError) throw membershipError;
-
-      currentMemberships = memberships || [];
-
-      if (!currentMemberships.length) {
-        throw new Error("Aucun rôle ou accès pharmacie attribué à ce compte.");
-      }
-
-      const roles = currentMemberships.map(item =>
-        String(item.role || "").toUpperCase()
-      );
-
-      isSuperAdmin = roles.includes("SUPER_ADMIN");
-
-      isDirector = roles.includes("DG") ||
-                   roles.includes("DIRECTOR");
-
-      currentRole = isSuperAdmin
-        ? "SUPER_ADMIN"
-        : isDirector
-          ? "DG"
-          : roles[0];
-
-      currentBranchId = currentMemberships[0]?.branch_id || null;
-
-      // Charger les pharmacies
-      const {data:branches,error:branchError} = await db
-        .from("branches")
-        .select("id,code,name,address,phone,is_active")
-        .eq("is_active",true)
-        .order("name");
-
-      if (branchError) throw branchError;
-
-      const allBranches = branches || [];
-
-      currentBranches = (isSuperAdmin || isDirector)
-        ? allBranches
-        : allBranches.filter(branch =>
-            currentMemberships.some(
-              membership => membership.branch_id === branch.id
-            )
-          );
-
-      if (!currentBranches.length) {
-        throw new Error("Aucune pharmacie accessible pour ce compte.");
-      }
-
-      if (el("dashboardUser")) {
-        el("dashboardUser").textContent =
-          currentProfile.full_name || currentUser.email;
-      }
-
-      if (el("dashboardRole")) {
-        el("dashboardRole").textContent = currentRole;
-      }
-
-      if (el("dashboardBranch")) {
-        el("dashboardBranch").textContent =
-          isSuperAdmin || isDirector
-            ? "Accès administrateur — Toutes les pharmacies"
-            : currentBranches.map(branch => branch.name).join(", ");
-      }
-    }
-
-    // CHARGER TOUTES LES DONNÉES
-    async function loadAllData() {
-      const results = await Promise.allSettled([
-        loadMedicines(),
-        loadSuppliers(),
-        loadStock(),
-        loadBranches(),
-        loadEmployees(),
-        loadAuditLogs()
-      ]);
-
-      results.forEach((result,index) => {
-        if (result.status === "rejected") {
-          console.error("Erreur chargement données",index,result.reason);
-        }
-      });
-
-      updateDashboard();
-      buildNotifications();
-    }
-
-    // RAFRAÎCHIR TOUTES LES DONNÉES
-    async function refreshAll() {
-      await loadAllData();
-    }
-
-    // DÉCONNEXION
-    async function logout() {
-      try {
-        const {error} = await db.auth.signOut();
-
-        if (error) throw error;
-
-        currentUser = null;
-        currentProfile = null;
-        currentMemberships = [];
-        currentBranches = [];
-        currentRole = "";
-        currentBranchId = null;
-        isSuperAdmin = false;
-        isDirector = false;
-
-        medicines = [];
-        stockBatches = [];
-        suppliers = [];
-        notifications = [];
-
-        el("appScreen").classList.add("hidden");
-        el("loginScreen").classList.remove("hidden");
-
-        el("loginForm").reset();
-
-        showMessage("loginMessage","Déconnexion réussie.","success");
-
-      } catch (error) {
-        alert("Erreur déconnexion : " + error.message);
-      }
-    }
-
-    // ÉTAT DE LA CONNEXION INTERNET
-    function updateConnectionStatus() {
-      const status = el("connectionStatus");
-      if (!status) return;
-
-      if (navigator.onLine) {
-        status.textContent = "En ligne";
-        status.style.background = "rgba(21,128,61,.25)";
-      } else {
-        status.textContent = "Hors ligne";
-        status.style.background = "rgba(220,38,38,.25)";
-      }
-    }
-
-    window.addEventListener("online",updateConnectionStatus);
-    window.addEventListener("offline",updateConnectionStatus);
-
-    // ÉCOUTER LE FORMULAIRE DE CONNEXION
-    el("loginForm").addEventListener("submit",login);
-
-    // INITIALISATION
-    async function initializeApp() {
-      updateConnectionStatus();
-
-      try {
-        const {data,error} = await db.auth.getSession();
-
-        if (error) throw error;
-
-        const session = data.session;
-
-        if (!session) {
-          el("loginScreen").classList.remove("hidden");
-          el("appScreen").classList.add("hidden");
-          return;
-        }
-
-        currentUser = session.user;
-
-        await loadUserData();
-
-        el("loginScreen").classList.add("hidden");
-        el("appScreen").classList.remove("hidden");
-
-        await loadAllData();
-
-        showPage("dashboard");
-
-      } catch (error) {
-        console.error("Initialisation :",error);
-
-        await db.auth.signOut();
-
-        currentUser = null;
-
-        el("appScreen").classList.add("hidden");
-        el("loginScreen").classList.remove("hidden");
-
-        showMessage(
-          "loginMessage",
-          "Erreur de chargement : " + error.message
-        );
-      }
-    }
-
-    // SURVEILLER LES CHANGEMENTS DE SESSION
-    db.auth.onAuthStateChange((event,session) => {
-      if (event === "SIGNED_OUT") {
-        currentUser = null;
-
-        el("appScreen").classList.add("hidden");
-        el("loginScreen").classList.remove("hidden");
-      }
-    });
-
-    // DÉMARRER L'APPLICATION
-    initializeApp();
-
-    </script>
-
-</main>
 </section>
 
+
+<!-- ACCES ERP -->
+
+<section class="management section" id="gestion">
+
+  <div class="container management-content">
+
+    <div class="management-icon">🔐</div>
+
+    <span class="section-label">
+      ESPACE PROFESSIONNEL
+    </span>
+
+    <h2>Gestion Pharmacie Ramba</h2>
+
+    <p>
+      Accédez à notre plateforme numérique de gestion
+      pour le suivi des activités de Pharmacie Ramba.
+    </p>
+
+    <a
+      href="https://jeanclaude-tech.github.io/digital-solutions-hub"
+      class="btn btn-light"
+      target="_blank"
+      rel="noopener">
+      ACCÉDER À LA GESTION →
+    </a>
+
+    <small>
+      Accès réservé au personnel autorisé.
+    </small>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div class="container footer-content">
+
+    <div class="footer-brand">
+
+      <h2>✚ PHARMACIE RAMBA</h2>
+
+      <p>Votre santé, notre priorité.</p>
+
+      <p>Bujumbura – Burundi</p>
+
+    </div>
+
+
+    <div class="footer-links">
+
+      <h3>Navigation</h3>
+
+      <a href="#accueil">Accueil</a>
+
+      <a href="#apropos">À propos</a>
+
+      <a href="#pharmacies">Nos pharmacies</a>
+
+      <a href="#services">Services</a>
+
+      <a href="#contact">Contact</a>
+
+    </div>
+
+
+    <div class="footer-links">
+
+      <h3>Nos établissements</h3>
+
+      <a href="#pharmacies">Centre-ville</a>
+
+      <a href="#pharmacies">Kamenge</a>
+
+      <a href="#gestion">Espace gestion</a>
+
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+
+    <p>
+      © <span id="currentYear"></span>
+      Pharmacie Ramba. Tous droits réservés.
+    </p>
+
+    <p>
+      Site officiel – Bujumbura, Burundi.
+    </p>
+
+  </div>
+
+</footer>
+
+<script>
+
+
+/* FORMULAIRE CONTACT - WHATSAPP */
+
+document.getElementById("contactForm")
+.addEventListener("submit", function(e) {
+
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const subject = document.getElementById("subject").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  // SHIRAMWO NUMERO YA WHATSAPP YA PHARMACIE RAMBA
+  const whatsappNumber = "25779750108";
+
+  if (!name || !email || !subject || !message) {
+    alert("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  const whatsappMessage =
+    "Bonjour Pharmacie Ramba !\n\n" +
+    "Nom : " + name + "\n" +
+    "Email : " + email + "\n" +
+    "Sujet : " + subject + "\n\n" +
+    "Message :\n" + message;
+
+  const whatsappURL =
+    "https://wa.me/" + whatsappNumber +
+    "?text=" + encodeURIComponent(whatsappMessage);
+
+  window.open(whatsappURL, "_blank");
+
+});
+
+
+
+
+
+
+</script>
+
+
+  
 </body>
 </html>
